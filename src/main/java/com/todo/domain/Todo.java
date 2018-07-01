@@ -16,9 +16,9 @@ public class Todo {
     String description;
     @Column(nullable = false)
     String task;
-    Boolean status;
     @Column(nullable = false)
     TodoStatus todoStatus=TodoStatus.PENDING;
+
 
     public Long getId() {
         return id;
@@ -50,14 +50,6 @@ public class Todo {
 
     public void setTask(String task) {
         this.task = task;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
     }
 
     public TodoStatus getTodoStatus() {

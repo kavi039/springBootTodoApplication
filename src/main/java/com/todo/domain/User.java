@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String email;
@@ -16,7 +17,7 @@ public class User {
     private String password;
     private String address;
     @Column(name = "status")
-    private EntityStatus entityStatus = EntityStatus.ENABLE;
+    private String entityStatus = EntityStatus.ENABLE.name();
 
     public Long getId() {
         return id;
@@ -50,11 +51,11 @@ public class User {
         this.address = address;
     }
 
-    public EntityStatus getEntityStatus() {
+    public String getEntityStatus() {
         return entityStatus;
     }
 
-    public void setEntityStatus(EntityStatus entityStatus) {
+    public void setEntityStatus(String entityStatus) {
         this.entityStatus = entityStatus;
     }
 }

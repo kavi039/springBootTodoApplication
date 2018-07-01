@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Todo {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @ManyToOne
     @NotNull

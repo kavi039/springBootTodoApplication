@@ -23,8 +23,7 @@ public class UserService {
         User user = new User();
         user.setEmail(userCo.getEmail());
         user.setAddress(userCo.getAddress());
-        byte[] password = userCo.getPassword().getBytes();
-        user.setPassword(Base64.getEncoder().encode(password).toString());
+        user.setPassword(encryptPassword(userCo.getPassword()));
         userRepository.save(user);
     }
 
@@ -38,7 +37,7 @@ public class UserService {
                user.setAddress(userCo.getAddress());
             }
             if (Objects.nonNull(userCo.getPassword()) &&!userCo.getPassword().equals("")) {
-                user.setPassword(Base64.getEncoder().encode(userCo.getPassword().getBytes()).toString());
+                user.setPassword(encryptPassword(userCo.getPassword()));
             }
             userRepository.save(user);
         }
@@ -49,7 +48,18 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public boolean validateUser() {
-        return true;
+    //Validation of login user
+    public boolean validateUser(UserCo userCo) {
+        User user = userRepository.findByEmail(userCo.getEmail());
+        if (Objects.nonNull(user)) {
+            if (user.getPassword().equals(encryptPassword(userCo.getPassword()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //Encryption of password
+    private String encryptPassword(String password) {
+        return Base64.getEncoder().encode(password.getBytes()).toString();
     }
 }

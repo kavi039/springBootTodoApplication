@@ -13,11 +13,12 @@ public class Todo {
     @ManyToOne
     @NotNull
     User user;
+    @Column(length = 500)
     String description;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     String task;
     @Column(nullable = false)
-    TodoStatus todoStatus=TodoStatus.PENDING;
+    String todoStatus=TodoStatus.PENDING.name();
 
 
     public Long getId() {
@@ -52,11 +53,11 @@ public class Todo {
         this.task = task;
     }
 
-    public TodoStatus getTodoStatus() {
+    public String getTodoStatus() {
         return todoStatus;
     }
 
-    public void setTodoStatus(TodoStatus todoStatus) {
+    public void setTodoStatus(String todoStatus) {
         this.todoStatus = todoStatus;
     }
 }

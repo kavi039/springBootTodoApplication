@@ -46,4 +46,16 @@ public class UserController {
         }
         return new ResponseDTO(true, "user successfully deleted");
     }
+
+    @PostMapping("/authentication")
+    public ResponseDTO authenticateUser(UserCo userCo) {
+        boolean status;
+        try {
+            status = userService.validateUser(userCo);
+        }catch (RuntimeException e){
+            return new ResponseDTO(false, "Authentication failure");
+        }
+        return status ? new ResponseDTO(true, "successfully login") :
+                new ResponseDTO(false, "Authentication failure");
+    }
 }

@@ -10,12 +10,13 @@ import java.util.Set;
 public class User {
     @Id
     private Long id;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
     private String address;
     @Column(name = "status")
     private EntityStatus entityStatus = EntityStatus.ENABLE;
-    private Set<Todo> todos = new HashSet<Todo>();
 
     public Long getId() {
         return id;
@@ -55,14 +56,5 @@ public class User {
 
     public void setEntityStatus(EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Todo> getTodos() {
-        return this.todos;
-    }
-
-    public void getTodos(HashSet<Todo> todos) {
-        this.todos=todos;
     }
 }

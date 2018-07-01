@@ -3,15 +3,20 @@ package com.todo.domain;
 import com.todo.enums.TodoStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Todo {
     @Id
     Long id;
+    @ManyToOne
+    @NotNull
     User user;
     String description;
+    @Column(nullable = false)
     String task;
     Boolean status;
+    @Column(nullable = false)
     TodoStatus todoStatus=TodoStatus.PENDING;
 
     public Long getId() {
@@ -22,8 +27,6 @@ public class Todo {
         this.id = id;
     }
 
-   @ManyToMany(fetch = FetchType.LAZY)
-   @JoinColumn(name = "id",nullable = false)
     public User getUser() {
         return user;
     }

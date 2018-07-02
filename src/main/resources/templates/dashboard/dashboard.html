@@ -6,8 +6,18 @@
 </head>
 <body>
 <!-- Include _menu.html -->
-<th:block th:include="login/_menu"></th:block>
+<th:block th:include="dashboard/_menu"></th:block>
 <!--<form th:action="@{/authenticateUser}" th:object="${userVo}" method="POST">-->
-</form>
+<!--</form>-->
+<table th:object="${todoList}" id="todoList" border="1">
+    <tr>
+        <td colspan="2" th:text="Todo List"></td>
+    </tr>
+    <tr th:each="todo : ${todoList}">
+        <td th:text="${todo.task}"></td>
+        <td th:text="${todo.description}"></td>
+        <td th:text="${todo.todoStatus}"></td>
+    </tr>
+</table>
 </body>
 </html>

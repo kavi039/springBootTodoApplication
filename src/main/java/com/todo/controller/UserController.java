@@ -57,7 +57,7 @@ public class UserController {
             return "login/login";
         }
         if (status) {
-            return "dashboard/dashboard";
+            return "redirect:/todo/list";
         } else {
             model.addAttribute("errorMessage", "Username or Password invalid.");
             return "login/login";

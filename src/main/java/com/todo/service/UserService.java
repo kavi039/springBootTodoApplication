@@ -59,7 +59,7 @@ public class UserService {
         if (Objects.nonNull(user)) {
             if (user.getPassword().equals(encryptPassword(userCo.getPassword()))) {
                 httpSession.setAttribute("user",user.getId());
-                httpSession.setMaxInactiveInterval(15);
+                httpSession.setMaxInactiveInterval(300);
                 return true;
             }
         }

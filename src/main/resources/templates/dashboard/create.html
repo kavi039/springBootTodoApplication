@@ -20,24 +20,23 @@
 <body>
 
 <!-- Include _menu.html -->
-<th:block th:include="login/_menu"></th:block>
+<th:block th:include="dashboard/_menu"></th:block>
+<div>
+    <span style="color: green">Create Todo</span>
+</div>
 <div th:if="${errorMessage != null}"
      th:utext="${errorMessage}" class="error">...</div>
 <div th:if="${successMessage != null}"
      th:utext="${successMessage}" class="success">...</div>
-<form th:action="@{/user/save}" th:object="${userCo}" method="POST">
+<form th:action="@{/todo/addList}" th:object="${todoCo}" method="POST">
     <table>
         <tr>
-            <td>Username <span style="color: red">*</span> </td>
-            <td><input type="text" name="email"></td>
+            <td>Task <span style="color: red">*</span> </td>
+            <td><input type="text" name="task"></td>
         </tr>
         <tr>
-            <td>Password <span style="color: red">*</span></td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><input type="text" name="address"></td>
+            <td>Description</td>
+            <td><input type="text" name="description"></td>
         </tr>
         <tr>
             <td>

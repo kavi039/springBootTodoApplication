@@ -1,33 +1,43 @@
 package com.todo.controller;
 
 import com.todo.co.TodoCo;
-import com.todo.domain.Todo;
-import com.todo.dto.ResponseDTO;
 import com.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
-@ResponseBody
+@RequestMapping("/todo")
 public class TodoController {
     @Autowired
     TodoService todoService;
 
+    @RequestMapping("/list")
+    public String list(Model model,HttpSession httpSession){
+        Long id=(Long)httpSession.getAttribute("user");
+           model.addAttribute("todoList",todoService.getTodoLists()) ;
+        return Objects.nonNull(id)?"dashboard/dashboard":"redirect:/";
+    }
+
+    @RequestMapping("/create")
+    public String create(HttpSession httpSession)
+    {
+        Long id=(Long)httpSession.getAttribute("user");
+        return Objects.nonNull(id)?"dashboard/create":"redirect:/";
+    }
+
     @PostMapping("/addList")
-    public ResponseDTO addList(@RequestBody TodoCo todoCo) {
+    public String addList(Model model,@ModelAttribute("todoCo") TodoCo todoCo) {
         try{
             todoService.addList(todoCo);
         }catch (RuntimeException e) {
-            return new ResponseDTO(false, "Unable to save the task");
+            model.addAttribute("errorMessage","Unable to save the task");
+            return  "/todo/create";
         }
-        return new ResponseDTO(true, "saved successfully");
-    }
-
-    @GetMapping("/task")
-    public ResponseDTO fetchTasks() {
-        return new ResponseDTO(true, todoService.getTodoLists());
+        return "redirect:/todo/list";
     }
 }

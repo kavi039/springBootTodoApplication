@@ -1,6 +1,5 @@
 package com.todo.controller;
 
-import com.todo.co.UserCo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,6 @@ public class LoginController {
 
     @RequestMapping("/")
     public String login(Model model){
-        model.addAttribute("userCo",new UserCo());
         return "login/login";
     }
 

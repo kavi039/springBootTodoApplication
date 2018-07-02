@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Include _menu.html -->
 <th:block th:include="dashboard/_menu"></th:block>
-<!--<form th:action="@{/authenticateUser}" th:object="${userVo}" method="POST">-->
-<!--</form>-->
-<table th:object="${todoList}" id="todoList" border="1">
+<div>
+    <span style="color: green">Todo List</span>
+</div>
+<table th:if="${#lists.size(todoList)>0}" th:object="${todoList}" id="todoList" border="1">
     <tr>
-        <td colspan="2" th:text="Todo List"></td>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Status</th>
     </tr>
     <tr th:each="todo : ${todoList}">
         <td th:text="${todo.task}"></td>
@@ -20,5 +28,8 @@
         <td th:text="${todo.todoStatus}"></td>
     </tr>
 </table>
+<div th:if="${#lists.isEmpty(todoList)}">
+    <span>No Todo Found.</span>
+</div>
 </body>
 </html>

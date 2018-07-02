@@ -1,8 +1,8 @@
 package com.todo.dto;
 
-public class ResponseDTO {
+public class ResponseDTO<T> {
     private boolean status;
-    private String statusMessage;
+    private T statusMessage;
 
     public boolean isStatus() {
         return status;
@@ -12,15 +12,15 @@ public class ResponseDTO {
         this.status = status;
     }
 
-    public String getStatusMessage() {
+    public T getStatusMessage() {
         return statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(T statusMessage) {
         this.statusMessage = statusMessage;
     }
 
-    public ResponseDTO(boolean status, String statusMessage) {
+    public ResponseDTO(boolean status, T statusMessage) {
         this.status = status;
         this.statusMessage = statusMessage;
     }

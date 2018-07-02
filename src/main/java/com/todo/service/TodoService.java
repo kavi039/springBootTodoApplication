@@ -25,7 +25,7 @@ public class TodoService {
     TodoRepository todoRepository;
 
     public void addList(TodoCo todoCo) {
-        Todo todo =  new Todo();
+        Todo todo = new Todo();
         User user = userRepository.findById((Long) httpSession.getAttribute("user")).get();
         todo.setUser(user);
         todo.setTask(todoCo.getTask());
@@ -40,5 +40,23 @@ public class TodoService {
             todoList = todoRepository.findAllByUser(user);
         }
         return todoList;
+    }
+
+    public Boolean update(Long id, String status) {
+        Boolean result = true;
+        try {
+            if (Objects.nonNull(httpSession.getAttribute("user"))) {
+                User user = userRepository.findById((Long) httpSession.getAttribute("user")).get();
+                Todo todo = todoRepository.findByIdAndAndUser(id, user);
+                todo.setTodoStatus(status);
+                todoRepository.save(todo);
+            } else {
+                result = false;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = false;
+        }
+        return result;
     }
 }

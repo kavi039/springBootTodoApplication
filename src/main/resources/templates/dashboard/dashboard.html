@@ -21,11 +21,19 @@
         <th>Task</th>
         <th>Description</th>
         <th>Status</th>
+        <th>Action</th>
     </tr>
     <tr th:each="todo : ${todoList}">
         <td th:text="${todo.task}"></td>
         <td th:text="${todo.description}"></td>
         <td th:text="${todo.todoStatus}"></td>
+        <td th:if="${todo.todoStatus!='COMPLETED'}">
+            <form th:action="@{/todo/update}" method="GET">
+                <input type="hidden" value="COMPLETED" name="status">
+                <input type="hidden" th:value="${todo.id}" name="id">
+                <input type="submit" value="update">
+            </form>
+        </td>
     </tr>
 </table>
 <div th:if="${#lists.isEmpty(todoList)}">

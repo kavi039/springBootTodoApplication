@@ -3,6 +3,7 @@ package com.todo.service;
 import com.todo.co.UserCo;
 import com.todo.dao.repo.UserRepository;
 import com.todo.domain.User;
+import com.todo.enums.EntityStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,7 @@ public class UserService {
 
     //Validation of login user
     public boolean validateUser(UserCo userCo) {
-        User user = userRepository.findByEmail(userCo.getEmail());
+        User user = userRepository.findByEmailAndEntityStatus(userCo.getEmail(), EntityStatus.ENABLE.name());
         if (Objects.nonNull(user)) {
             if (user.getPassword().equals(encryptPassword(userCo.getPassword()))) {
                 httpSession.setAttribute("user",user);

@@ -57,7 +57,7 @@ public class UserService {
         User user = userRepository.findByEmail(userCo.getEmail());
         if (Objects.nonNull(user)) {
             if (user.getPassword().equals(encryptPassword(userCo.getPassword()))) {
-                httpSession.setAttribute("user",user);
+                httpSession.setAttribute("user",user.getId());
                 httpSession.setMaxInactiveInterval(15);
                 return true;
             }

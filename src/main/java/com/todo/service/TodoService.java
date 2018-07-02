@@ -9,12 +9,18 @@ import com.todo.dto.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TodoService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    HttpSession httpSession;
 
     @Autowired
     TodoRepository todoRepository;
@@ -28,8 +34,12 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
-    public List<Todo> getTodoLists(Long id) {
-        List<Todo> todoList = todoRepository.findAllByUser(id);
+    public List<Todo> getTodoLists() {
+        List<Todo> todoList = new ArrayList<>();
+        if (Objects.nonNull(httpSession.getAttribute("user"))) {
+            User user = userRepository.findById((Long) httpSession.getAttribute("user")).get();
+            todoList = todoRepository.findAllByUser(user.getId());
+        }
         return todoList;
     }
 }

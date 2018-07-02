@@ -26,8 +26,8 @@ public class TodoController {
         return new ResponseDTO(true, "saved successfully");
     }
 
-    @GetMapping("/task/{id}")
-    public ResponseDTO fetchTasks(@PathVariable("id") Long id) {
-        return new ResponseDTO(true, todoService.getTodoLists(id));
+    @GetMapping("/task")
+    public ResponseDTO fetchTasks() {
+        return new ResponseDTO(true, todoService.getTodoLists());
     }
 }

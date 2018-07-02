@@ -1,18 +1,15 @@
 package com.todo.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todo.co.UserCo;
 import com.todo.dto.ResponseDTO;
 import com.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@ResponseBody
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -22,40 +19,46 @@ public class UserController {
     public ResponseDTO saveUser(@RequestBody UserCo userCo) {
         try {
             userService.addUser(userCo);
-        }
-        catch (RuntimeException e) {
-           return new ResponseDTO(false, "User already exists");
+        } catch (RuntimeException e) {
+            return new ResponseDTO(false, "User already exists");
         }
         return new ResponseDTO(true, "User saved successfully");
     }
+
     @PostMapping("/edit/{id}")
     public ResponseDTO editUser(@PathVariable("id") Long id, @RequestBody UserCo userCo) {
         try {
-            userService.updateUser(id,userCo);
-        }catch (RuntimeException e){
+            userService.updateUser(id, userCo);
+        } catch (RuntimeException e) {
             return new ResponseDTO(true, "User is not available");
         }
         return new ResponseDTO(true, "Successfully edited profile");
     }
+
     @PostMapping("/delete/{id}")
     public ResponseDTO deleteUser(@PathVariable("id") Long id) {
-        try{
+        try {
             userService.deleteUser(id);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return new ResponseDTO(false, "Unable to delete the user");
         }
         return new ResponseDTO(true, "user successfully deleted");
     }
 
     @PostMapping("/authentication")
-    public ResponseDTO authenticateUser(UserCo userCo) {
+    public String authenticateUser(Model model, @ModelAttribute("userCo") UserCo userCo) {
         boolean status;
         try {
             status = userService.validateUser(userCo);
-        }catch (RuntimeException e){
-            return new ResponseDTO(false, "Authentication failure");
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", "While validating user got some error " + e.getMessage());
+            return "login/login";
         }
-        return status ? new ResponseDTO(true, "successfully login") :
-                new ResponseDTO(false, "Authentication failure");
+        if (status) {
+            return "dashboard/dashboard";
+        } else {
+            model.addAttribute("errorMessage", "Username or Password invalid.");
+            return "login/login";
+        }
     }
 }

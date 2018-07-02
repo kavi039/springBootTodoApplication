@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -14,6 +15,9 @@ import java.util.Objects;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    HttpSession httpSession;
+
     @Transactional
     public void addUser(UserCo userCo) {
       Long emailCount =  userRepository.countUserByEmail(userCo.getEmail());
@@ -53,6 +57,8 @@ public class UserService {
         User user = userRepository.findByEmail(userCo.getEmail());
         if (Objects.nonNull(user)) {
             if (user.getPassword().equals(encryptPassword(userCo.getPassword()))) {
+                httpSession.setAttribute("user",user);
+                httpSession.setMaxInactiveInterval(15);
                 return true;
             }
         }

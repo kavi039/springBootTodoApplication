@@ -66,6 +66,6 @@ public class UserService {
     }
     //Encryption of password
     private String encryptPassword(String password) {
-        return Base64.getEncoder().encode(password.getBytes()).toString();
+        return Base64.getEncoder().encodeToString(password.getBytes());
     }
 }

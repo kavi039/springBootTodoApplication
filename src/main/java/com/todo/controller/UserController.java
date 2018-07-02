@@ -16,13 +16,15 @@ public class UserController {
 
 
     @PostMapping("/save")
-    public ResponseDTO saveUser(@RequestBody UserCo userCo) {
+    public String saveUser(Model model,@ModelAttribute("userCo") UserCo userCo) {
         try {
             userService.addUser(userCo);
         } catch (RuntimeException e) {
-            return new ResponseDTO(false, "User already exists");
+            model.addAttribute("errorMessage","User already exists");
+            return "login/register";
         }
-        return new ResponseDTO(true, "User saved successfully");
+        model.addAttribute("successMessage","User saved successfully");
+        return "login/login";
     }
 
     @PostMapping("/edit/{id}")

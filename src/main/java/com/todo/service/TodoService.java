@@ -47,7 +47,7 @@ public class TodoService {
         try {
             if (Objects.nonNull(httpSession.getAttribute("user"))) {
                 User user = userRepository.findById((Long) httpSession.getAttribute("user")).get();
-                Todo todo = todoRepository.findByIdAndAndUser(id, user);
+                Todo todo = todoRepository.findByIdAndUser(id, user);
                 todo.setTodoStatus(status);
                 todoRepository.save(todo);
             } else {

@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
     List<Todo> findAllByUser(User user);
-    Todo findByIdAndAndUser(Long id,User user);
+    Todo findByIdAndUser(Long id,User user);
 }

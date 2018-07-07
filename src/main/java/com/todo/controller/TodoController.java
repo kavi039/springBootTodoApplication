@@ -44,7 +44,6 @@ public class TodoController {
     @RequestMapping("/update")
     public String update(Model model, Long id, String status) {
         Boolean result = todoService.update(id, status);
-        RedirectView redirectView=new RedirectView();
         return "redirect:/todo/list";
     }
 }
